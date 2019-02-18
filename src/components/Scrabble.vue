@@ -1,7 +1,8 @@
 <template>
   <div class="hello">
     <h1>Welcome to Scrabble Score</h1>
-    <input v-model="word" pattern="[a-z]*"/><button v-on:click="addToList">PLAY</button>
+    <input v-on:keyup.enter="addToList" v-model="word" pattern="[a-z]*"/>
+    <!-- <button v-on:click="addToList" :disabled="!isValidWord || !word" >PLAY</button> -->
     <div v-if="isValidWord">
       <p>Your word gets you <strong v-text="scrabbleScore" /> scrabble points!</p>
       <ul>
@@ -17,6 +18,7 @@
         </ul>  
       </li>
     </ul>
+    <p>Total: <span>{{totalScore}}</span></p>
   </div>
 </template>
 
@@ -37,8 +39,13 @@ export default {
   methods: {
     letterScore: scrabbleLetterScore,
     addToList: function(){
+      if (this.isValidWord && this.word) {
       this.words.push(this.word);
+      } else {
+        alert('No');
+      }
       this.word = "";
+
     },
     // Calling wordS calls scrab
     wordScore: scrabbleWordScore
@@ -55,6 +62,14 @@ export default {
     },
     reversedWords: function(){
       return this.words.slice().reverse();
+    },
+    totalScore: function() {
+      let scoreTotal = 0;
+      for (let word of this.words) {
+        scoreTotal += scrabbleWordScore(word);
+      }
+
+      return scoreTotal;
     }
   }
 }
