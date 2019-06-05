@@ -1,4 +1,5 @@
-# scrabble
+# Scrabble Score Calculator
+A little scrabble score calculator I made to practice/learn vue.
 
 ## Project setup
 ```
